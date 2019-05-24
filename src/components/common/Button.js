@@ -10,7 +10,7 @@ const Button = ({ onPress, children }) => {
       </Text>
     </TouchableOpacity>
   );
-}  
+};
 
 const styles = {
   buttonStyle: {
@@ -30,6 +30,6 @@ const styles = {
     alignSelf: 'center',
     color: '#007aff'
   }
-}
+};
 
 export { Button };

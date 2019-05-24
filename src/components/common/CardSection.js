@@ -16,6 +16,6 @@ const styles = {
     justifyContent: 'flex-start',
     flexDirection: 'row'
   }
-}
+};
 
 export { CardSection };

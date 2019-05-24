@@ -7,8 +7,8 @@ const Header = (props) => {
     <View style={viewStyle}>
       <Text style={textStyle}>{props.headerText}</Text>
     </View>
-  )
-}
+  );
+};
 
 const styles = {
   viewStyle: {
@@ -18,12 +18,12 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2
   },
   textStyle: {
     fontSize: 20
   }
-}
+};
 
 export { Header };
