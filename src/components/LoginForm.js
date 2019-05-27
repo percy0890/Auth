@@ -1,8 +1,47 @@
 import React, { Component } from 'react';
-import { Card, CardSection, Button, Input } from './common';
+import firebase from 'firebase';
+import { Text } from 'react-native';
+import { Card, CardSection, Button, Input, Spinner } from './common';
 
 class LoginForm extends Component {
-  state = { email: '', password: '' }
+  state = { email: '', password: '', error: '', loading: false }
+
+  onButtonPress = () => {
+    const { email, password } = this.state;
+
+    this.setState({ error: '', loading: true });
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(this.onLoginSuccess)
+      .catch(() => {
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+          .then(this.onLoginSuccess)
+          .catch(this.onLoginFail);
+      });
+  }
+
+  onLoginSuccess = () => {
+    this.setState({ 
+      email: '',
+      password: '',
+      error: '', 
+      loading: false 
+    });
+  }
+
+  onLoginFail = () => {
+    this.setState({ 
+      error: 'Authentication Failed!', 
+      loading: false 
+    });
+  }
+
+
+  renderButton() {
+    if (this.state.loading) {
+      return <Spinner size={'small'} />;
+    }
+    return <Button onPress={this.onButtonPress}>Log in</Button>;
+  }
   render() {
     return (
       <Card>
@@ -14,6 +53,7 @@ class LoginForm extends Component {
             onChangeText={(enteredEmail) => this.setState({ email: enteredEmail })} 
           />
         </CardSection>
+
         <CardSection>
           <Input
             secureTextEntry
@@ -23,12 +63,24 @@ class LoginForm extends Component {
             onChangeText={(enteredPwd) => this.setState({ password: enteredPwd })} 
           />
         </CardSection>
+
+        <Text style={styles.errorTextStyle}>
+          {this.state.error}
+        </Text>
+
         <CardSection>
-          <Button>Log in</Button>
+          {this.renderButton()}
         </CardSection>
       </Card>
     );
   }
 }
+
+const styles = {
+  errorTextStyle: {
+    color: 'red',
+    alignSelf: 'center'
+  }
+};
 
 export default LoginForm;
